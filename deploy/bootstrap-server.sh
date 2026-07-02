@@ -32,7 +32,7 @@ sudo npm install -g pnpm
 
 echo "==> PostgreSQL database"
 sudo -u postgres psql -tc "SELECT 1 FROM pg_roles WHERE rolname='atoms'" | grep -q 1 || \
-  sudo -u postgres psql -c "CREATE USER atoms WITH PASSWORD 'change-me-strong-password';"
+  sudo -u postgres psql -c "CREATE USER atoms WITH PASSWORD 'MyStrongPass123#@!';"
 sudo -u postgres psql -tc "SELECT 1 FROM pg_database WHERE datname='atoms_demo'" | grep -q 1 || \
   sudo -u postgres psql -c "CREATE DATABASE atoms_demo OWNER atoms;"
 
