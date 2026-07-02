@@ -37,11 +37,13 @@ sudo -u postgres psql -tc "SELECT 1 FROM pg_database WHERE datname='atoms_demo'"
   sudo -u postgres psql -c "CREATE DATABASE atoms_demo OWNER atoms;"
 
 echo "==> Clone application"
-sudo mkdir -p "$(dirname "$APP_DIR")"
+sudo mkdir -p "$APP_DIR"
+sudo chown -R "$APP_USER:$APP_USER" "$APP_DIR"
 if [[ ! -d "$APP_DIR/.git" ]]; then
-  sudo git clone "$REPO_URL" "$APP_DIR"
-  sudo chown -R "$APP_USER:$APP_USER" "$APP_DIR"
+  git clone "$REPO_URL" "$APP_DIR"
 fi
+# Re-apply after any prior root-owned clone from older bootstrap runs
+sudo chown -R "$APP_USER:$APP_USER" "$APP_DIR"
 
 cd "$APP_DIR"
 

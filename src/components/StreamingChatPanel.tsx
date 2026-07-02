@@ -406,19 +406,6 @@ export function StreamingChatPanel({
   );
 
   useEffect(() => {
-    const persistedHandoffIds = new Set(partitionedMessages.handoffs.map((h) => h.id));
-    const persistedRollbackIds = new Set(partitionedMessages.rollbacks.map((r) => r.id));
-    setHandoffs((prev) => {
-      const next = prev.filter((h) => !persistedHandoffIds.has(h.id));
-      return next.length === prev.length ? prev : next;
-    });
-    setRollbacks((prev) => {
-      const next = prev.filter((r) => !persistedRollbackIds.has(r.id));
-      return next.length === prev.length ? prev : next;
-    });
-  }, [partitionedMessages.handoffs, partitionedMessages.rollbacks]);
-
-  useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [displayMessages, timelineHandoffs, timelineRollbacks]);
 
