@@ -1,0 +1,8 @@
+{
+  "categories": [
+    { "id": "saas", "label": "SaaS 应用", "labelEn": "SaaS Apps" },
+    { "id": "ecommerce", "label": "电商", "labelEn": "E-commerce" },
+    { "id": "internal", "label": "内部工具", "labelEn": "Internal Tools" },
+    { "id": "personal", "label": "个人项目", "labelEn": "Personal Projects" }
+  ]
+}

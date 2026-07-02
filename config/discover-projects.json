@@ -1,0 +1,64 @@
+{
+  "projects": [
+    {
+      "id": "discover-crm",
+      "name": "轻量 CRM 面板",
+      "description": "客户跟进、销售漏斗与任务提醒",
+      "author": "社区创作者",
+      "category": "SaaS Apps",
+      "emoji": "📋",
+      "gradient": "from-indigo-500 to-purple-600",
+      "remixPrompt": "构建一个轻量 CRM 面板，包含客户列表、销售漏斗看板和任务提醒，现代 SaaS 风格 UI。"
+    },
+    {
+      "id": "discover-shop",
+      "name": "精品电商 storefront",
+      "description": "商品网格、购物车和结账流程",
+      "author": "Atoms 示例",
+      "category": "E-commerce",
+      "emoji": "🛍️",
+      "gradient": "from-rose-500 to-orange-500",
+      "remixPrompt": "创建一个精品电商 storefront，含商品网格、购物车侧边栏和简洁结账流程。"
+    },
+    {
+      "id": "discover-hr",
+      "name": "员工入职工具",
+      "description": "入职清单、文档签署与进度追踪",
+      "author": "内部工具集",
+      "category": "Internal Tools",
+      "emoji": "👥",
+      "gradient": "from-emerald-500 to-teal-600",
+      "remixPrompt": "构建员工入职内部工具，包含入职清单、文档签署状态和进度追踪仪表盘。"
+    },
+    {
+      "id": "discover-blog",
+      "name": "个人博客",
+      "description": "文章列表、标签筛选与阅读页",
+      "author": "创作者模板",
+      "category": "Personal Projects",
+      "emoji": "✍️",
+      "gradient": "from-sky-500 to-blue-600",
+      "remixPrompt": "创建一个个人博客，含文章列表、标签筛选、阅读页和简洁的作者介绍。"
+    },
+    {
+      "id": "discover-fitness",
+      "name": "健身追踪器",
+      "description": "训练记录、目标与进度图表",
+      "author": "健康应用",
+      "category": "Personal Projects",
+      "emoji": "💪",
+      "gradient": "from-violet-500 to-fuchsia-600",
+      "remixPrompt": "构建健身追踪 Web 应用，支持训练记录、Weekly 目标与进度图表可视化。"
+    },
+    {
+      "id": "discover-inventory",
+      "name": "库存管理系统",
+      "description": "SKU 管理、入库出库与低库存预警",
+      "author": "企业效率",
+      "category": "Internal Tools",
+      "emoji": "📦",
+      "gradient": "from-amber-500 to-yellow-600",
+      "remixPrompt": "创建库存管理内部工具，含 SKU 列表、入库出库记录和低库存预警。"
+    }
+  ]
+}

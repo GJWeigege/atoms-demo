@@ -1,0 +1,17 @@
+[Unit]
+Description=Atoms Demo Backend (FastAPI)
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=__APP_USER__
+Group=__APP_USER__
+WorkingDirectory=__APP_DIR__/backend
+EnvironmentFile=__APP_DIR__/backend/.env
+ExecStart=__APP_DIR__/backend/.venv/bin/python -m uvicorn main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

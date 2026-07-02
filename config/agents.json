@@ -1,0 +1,520 @@
+{
+  "agents": [
+    {
+      "id": "mike",
+      "name": "Mike",
+      "nameZh": "Mike",
+      "role": "team_leader",
+      "roleZh": "团队负责人",
+      "color": "#6366f1",
+      "bgColor": "#eef2ff",
+      "emoji": "🎯",
+      "description": "Coordinates the team, assigns tasks, and discusses project direction.",
+      "descriptionZh": "协调团队、分配任务，可讨论项目方向与整体规划",
+      "systemPrompt": "你是 Mike，Atoms 智能体团队的负责人。你善于协调团队成员、理解用户需求、分配任务并整合交付成果。\n当用户与你对话时：先理解他们的想法，给出清晰的项目方向；必要时建议 @Emma（产品）、@Bob（架构）、@Alex（工程师）等同事协助。\n语气专业、友好、有领导力。用中文回复。",
+      "inPipeline": true,
+      "pipelineOrder": 0,
+      "inputs": [],
+      "outputs": ["intake", "task_decomposition", "risk_assessment", "plan"],
+      "workflow": [
+        {
+          "id": "intake-analysis",
+          "name": "Intake Analysis",
+          "nameZh": "需求 intake 分析",
+          "description": "解析用户需求，识别目标用户、核心功能与约束",
+          "dependsOn": [],
+          "template": "agents/mike/intake-analysis.md",
+          "inputKeys": ["prompt", "appType", "title", "themeLabel"],
+          "outputType": "intake"
+        },
+        {
+          "id": "task-decomposition",
+          "name": "Task Decomposition",
+          "nameZh": "任务拆解与分配",
+          "description": "拆解任务并分配给其他 Agent",
+          "dependsOn": ["intake-analysis"],
+          "template": "agents/mike/task-decomposition.md",
+          "inputKeys": ["prompt", "intake", "appType", "title"],
+          "outputType": "task_decomposition"
+        },
+        {
+          "id": "risk-assessment",
+          "name": "Risk Assessment",
+          "nameZh": "风险评估与优先级",
+          "description": "识别项目风险并确定优先级",
+          "dependsOn": ["intake-analysis", "task-decomposition"],
+          "template": "agents/mike/risk-assessment.md",
+          "inputKeys": ["prompt", "intake", "task_decomposition", "appType"],
+          "outputType": "risk_assessment"
+        },
+        {
+          "id": "plan",
+          "name": "Project Plan",
+          "nameZh": "项目计划",
+          "description": "汇总上游分析，输出完整项目计划",
+          "dependsOn": ["intake-analysis", "task-decomposition", "risk-assessment"],
+          "template": "agents/mike/plan.md",
+          "inputKeys": ["prompt", "intake", "task_decomposition", "risk_assessment", "appType", "title", "themeLabel"],
+          "outputType": "plan"
+        }
+      ]
+    },
+    {
+      "id": "emma",
+      "name": "Emma",
+      "nameZh": "Emma",
+      "role": "product_manager",
+      "roleZh": "产品经理",
+      "color": "#ec4899",
+      "bgColor": "#fdf2f8",
+      "emoji": "📋",
+      "description": "PRD, requirements, user journeys, and MVP scope.",
+      "descriptionZh": "撰写 PRD、梳理需求、设计用户旅程与 MVP 范围",
+      "systemPrompt": "你是 Emma，Atoms 团队的产品经理。你专注于用户需求、产品范围、用户故事和 MVP 功能定义。\n当用户与你对话时：帮助澄清需求、撰写用户故事、定义功能优先级和成功指标。\n语气细致、以用户为中心。用中文回复。",
+      "inPipeline": true,
+      "pipelineOrder": 1,
+      "inputs": ["plan"],
+      "outputs": ["stakeholders", "requirements", "user_journey", "feature_priority", "prd"],
+      "workflow": [
+        {
+          "id": "stakeholder-analysis",
+          "name": "Stakeholder Analysis",
+          "nameZh": "利益相关者分析",
+          "description": "识别干系人、诉求与影响力矩阵",
+          "dependsOn": ["plan"],
+          "template": "agents/emma/stakeholder-analysis.md",
+          "inputKeys": ["prompt", "plan", "appType", "title"],
+          "outputType": "stakeholders"
+        },
+        {
+          "id": "requirements-analysis",
+          "name": "Requirements Analysis",
+          "nameZh": "需求分析",
+          "description": "功能与非功能需求拆解",
+          "dependsOn": ["stakeholder-analysis"],
+          "template": "agents/emma/requirements-analysis.md",
+          "inputKeys": ["prompt", "plan", "stakeholders", "appType", "title"],
+          "outputType": "requirements"
+        },
+        {
+          "id": "user-journey",
+          "name": "User Journey",
+          "nameZh": "用户旅程地图",
+          "description": "绘制端到端用户旅程与触点",
+          "dependsOn": ["requirements-analysis"],
+          "template": "agents/emma/user-journey.md",
+          "inputKeys": ["prompt", "plan", "requirements", "stakeholders", "title"],
+          "outputType": "user_journey"
+        },
+        {
+          "id": "feature-prioritization",
+          "name": "Feature Prioritization",
+          "nameZh": "功能优先级 (MoSCoW)",
+          "description": "MoSCoW 优先级与 MVP 范围",
+          "dependsOn": ["user-journey"],
+          "template": "agents/emma/feature-prioritization.md",
+          "inputKeys": ["prompt", "requirements", "user_journey", "plan"],
+          "outputType": "feature_priority"
+        },
+        {
+          "id": "prd-writing",
+          "name": "PRD Writing",
+          "nameZh": "PRD 编写",
+          "description": "汇总上游产物，输出完整 PRD",
+          "dependsOn": ["stakeholder-analysis", "requirements-analysis", "user-journey", "feature-prioritization"],
+          "template": "agents/emma/prd-writing.md",
+          "inputKeys": ["prompt", "plan", "stakeholders", "requirements", "user_journey", "feature_priority", "appType", "title"],
+          "outputType": "prd"
+        }
+      ]
+    },
+    {
+      "id": "designer",
+      "name": "Luna",
+      "nameZh": "Luna",
+      "role": "designer",
+      "roleZh": "设计师",
+      "color": "#f97316",
+      "bgColor": "#fff7ed",
+      "emoji": "🎨",
+      "description": "Wireframes, visual design, and HTML/CSS design packages.",
+      "descriptionZh": "线框设计、视觉规范与 HTML/CSS 设计交付包",
+      "systemPrompt": "你是 Luna，Atoms 团队的设计师。你负责线框图、视觉规范、设计令牌和 HTML/CSS 设计交付包。\n当用户与你对话时：提供布局建议、配色方案、组件规范与交互视觉指导。\n语气创意、注重细节。用中文回复。",
+      "inPipeline": true,
+      "pipelineOrder": 2,
+      "inputs": ["prd", "requirements"],
+      "outputs": ["design_research", "wireframe", "visual_system", "design"],
+      "workflow": [
+        {
+          "id": "design-research",
+          "name": "Design Research",
+          "nameZh": "设计调研与参考",
+          "description": "竞品视觉参考、设计趋势与约束",
+          "dependsOn": ["prd"],
+          "template": "agents/designer/design-research.md",
+          "inputKeys": ["prompt", "prd", "requirements", "title", "themeLabel"],
+          "outputType": "design_research"
+        },
+        {
+          "id": "wireframe",
+          "name": "Wireframe",
+          "nameZh": "线框设计",
+          "description": "结构化线框与 ASCII 布局",
+          "dependsOn": ["design-research"],
+          "template": "agents/designer/wireframe.md",
+          "inputKeys": ["prompt", "prd", "design_research", "requirements", "title", "themeLabel"],
+          "outputType": "wireframe"
+        },
+        {
+          "id": "visual-system",
+          "name": "Visual System",
+          "nameZh": "视觉系统",
+          "description": "色彩、字体、间距 token，引用主题",
+          "dependsOn": ["wireframe"],
+          "template": "agents/designer/visual-system.md",
+          "inputKeys": ["prompt", "wireframe", "prd", "themeVars", "themeLabel", "themeDescription"],
+          "outputType": "visual_system"
+        },
+        {
+          "id": "design-package",
+          "name": "Design Package",
+          "nameZh": "设计交付包",
+          "description": "HTML/CSS 设计稿片段与交付清单",
+          "dependsOn": ["visual-system"],
+          "template": "agents/designer/design-package.md",
+          "inputKeys": ["prompt", "prd", "wireframe", "visual_system", "themeVars", "themeLabel"],
+          "outputType": "design"
+        }
+      ]
+    },
+    {
+      "id": "bob",
+      "name": "Bob",
+      "nameZh": "Bob",
+      "role": "architect",
+      "roleZh": "系统架构师",
+      "color": "#8b5cf6",
+      "bgColor": "#f5f3ff",
+      "emoji": "🏗️",
+      "description": "Technical blueprints, system architecture, and UI structure.",
+      "descriptionZh": "设计技术蓝图、系统架构与 UI 结构",
+      "systemPrompt": "你是 Bob，Atoms 团队的系统架构师。你负责技术选型、系统架构、数据模型和 UI 布局设计。\n当用户与你对话时：提供清晰的技术方案、组件划分、数据流和可扩展性建议。\n语气严谨、结构化。用中文回复。",
+      "inPipeline": true,
+      "pipelineOrder": 3,
+      "inputs": ["prd", "design"],
+      "outputs": ["requirements_review", "system_design", "data_model", "architecture"],
+      "workflow": [
+        {
+          "id": "requirements-review",
+          "name": "Requirements Review",
+          "nameZh": "PRD 与设计约束审阅",
+          "description": "审阅 PRD 与设计约束，输出架构输入清单",
+          "dependsOn": ["prd", "design"],
+          "template": "agents/bob/requirements-review.md",
+          "inputKeys": ["prompt", "prd", "design", "requirements", "title"],
+          "outputType": "requirements_review"
+        },
+        {
+          "id": "system-design",
+          "name": "System Design",
+          "nameZh": "系统架构设计",
+          "description": "组件图、模块划分与数据流",
+          "dependsOn": ["requirements-review"],
+          "template": "agents/bob/system-design.md",
+          "inputKeys": ["prompt", "prd", "design", "requirements_review", "appType"],
+          "outputType": "system_design"
+        },
+        {
+          "id": "data-model",
+          "name": "Data Model",
+          "nameZh": "数据模型设计",
+          "description": "实体关系与 schema 设计",
+          "dependsOn": ["system-design"],
+          "template": "agents/bob/data-model.md",
+          "inputKeys": ["prompt", "system_design", "prd", "requirements_review", "appType"],
+          "outputType": "data_model"
+        },
+        {
+          "id": "architecture",
+          "name": "System Architecture",
+          "nameZh": "完整架构文档",
+          "description": "汇总架构、API 设计与技术决策",
+          "dependsOn": ["requirements-review", "system-design", "data-model"],
+          "template": "agents/bob/architecture.md",
+          "inputKeys": ["prompt", "prd", "design", "requirements_review", "system_design", "data_model", "appType", "title"],
+          "outputType": "architecture"
+        }
+      ]
+    },
+    {
+      "id": "alex",
+      "name": "Alex",
+      "nameZh": "Alex",
+      "role": "engineer",
+      "roleZh": "软件工程师",
+      "color": "#06b6d4",
+      "bgColor": "#ecfeff",
+      "emoji": "⚡",
+      "description": "Full-stack coding and building functional applications.",
+      "descriptionZh": "全栈开发，编写代码并构建可用应用",
+      "systemPrompt": "你是 Alex，Atoms 团队的软件工程师。你擅长 HTML/CSS/JavaScript 全栈开发，能将设计转化为可运行的应用。\n当用户与你对话时：讨论实现细节、技术方案、代码结构和具体功能开发。\n语气务实、动手能力强。用中文回复。",
+      "inPipeline": true,
+      "pipelineOrder": 4,
+      "inputs": ["architecture", "design", "prd"],
+      "outputs": ["tech_stack", "frontend", "backend", "api", "integration", "code"],
+      "workflow": [
+        {
+          "id": "tech-stack-selection",
+          "name": "Tech Stack Selection",
+          "nameZh": "技术栈选型",
+          "description": "基于架构与设计选择实现技术栈",
+          "dependsOn": ["architecture"],
+          "template": "agents/alex/tech-stack-selection.md",
+          "inputKeys": ["prompt", "architecture", "prd", "design", "appType"],
+          "outputType": "tech_stack"
+        },
+        {
+          "id": "frontend",
+          "name": "Frontend",
+          "nameZh": "前端实现",
+          "description": "HTML/CSS/JS 前端结构与交互",
+          "dependsOn": ["tech-stack-selection"],
+          "template": "agents/alex/frontend.html.hbs",
+          "inputKeys": ["prompt", "prd", "design", "architecture", "tech_stack", "appType", "title", "themeVars"],
+          "outputType": "frontend"
+        },
+        {
+          "id": "backend-schema",
+          "name": "Backend Schema",
+          "nameZh": "后端/数据层 Schema",
+          "description": "数据模型与持久化 schema",
+          "dependsOn": ["tech-stack-selection"],
+          "template": "agents/alex/backend-schema.md",
+          "inputKeys": ["prompt", "architecture", "data_model", "prd", "tech_stack", "appType"],
+          "outputType": "backend"
+        },
+        {
+          "id": "api-implementation",
+          "name": "API Implementation",
+          "nameZh": "API 接口实现",
+          "description": "REST API mock 实现规格",
+          "dependsOn": ["backend-schema"],
+          "template": "agents/alex/api-implementation.md",
+          "inputKeys": ["prompt", "architecture", "backend", "data_model", "tech_stack"],
+          "outputType": "api"
+        },
+        {
+          "id": "integration",
+          "name": "Integration",
+          "nameZh": "前后端集成说明",
+          "description": "前后端联调与数据流集成方案",
+          "dependsOn": ["frontend", "api-implementation"],
+          "template": "agents/alex/integration.md",
+          "inputKeys": ["prompt", "frontend", "backend", "api", "architecture", "design"],
+          "outputType": "integration"
+        },
+        {
+          "id": "assemble",
+          "name": "Assemble",
+          "nameZh": "代码组装",
+          "description": "汇总全部上游产物，输出可运行代码",
+          "dependsOn": ["frontend", "backend-schema", "api-implementation", "integration"],
+          "template": "agents/alex/assemble.json.hbs",
+          "inputKeys": ["frontend", "backend", "api", "integration", "tech_stack", "themeVars", "appType", "title"],
+          "outputType": "code"
+        }
+      ]
+    },
+    {
+      "id": "david",
+      "name": "David",
+      "nameZh": "David",
+      "role": "data_analyst",
+      "roleZh": "数据分析师",
+      "color": "#10b981",
+      "bgColor": "#ecfdf5",
+      "emoji": "📊",
+      "description": "Data analysis, ML, scraping, and insights.",
+      "descriptionZh": "数据分析、机器学习、爬虫与数据洞察",
+      "systemPrompt": "你是 David，Atoms 团队的数据分析师。你擅长数据处理、分析建模、爬虫和 ML 相关方案。\n当用户与你对话时：帮助设计数据模型、分析指标、数据采集方案和可视化建议。\n语气数据驱动、逻辑清晰。用中文回复。",
+      "inPipeline": false,
+      "inputs": [],
+      "outputs": [],
+      "workflow": []
+    },
+    {
+      "id": "iris",
+      "name": "Iris",
+      "nameZh": "Iris",
+      "role": "researcher",
+      "roleZh": "深度研究员",
+      "color": "#f59e0b",
+      "bgColor": "#fffbeb",
+      "emoji": "🔍",
+      "description": "Deep research reports and competitive analysis.",
+      "descriptionZh": "深度调研、竞品分析与市场研究报告",
+      "systemPrompt": "你是 Iris，Atoms 团队的深度研究员。你擅长市场调研、竞品分析、行业趋势和深度研究报告。\n当用户与你对话时：提供结构化的研究框架、关键发现和建议。\n语气学术、全面、有深度。用中文回复。",
+      "inPipeline": false,
+      "inputs": ["plan", "prd"],
+      "outputs": ["research_scope", "research_sources", "research_analysis", "research"],
+      "workflow": [
+        {
+          "id": "research-scope",
+          "name": "Research Scope",
+          "nameZh": "调研范围界定",
+          "description": "明确调研问题、范围与方法",
+          "dependsOn": ["plan"],
+          "template": "agents/iris/research-scope.md",
+          "inputKeys": ["prompt", "plan", "prd", "title"],
+          "outputType": "research_scope"
+        },
+        {
+          "id": "source-collection",
+          "name": "Source Collection",
+          "nameZh": "资料收集",
+          "description": "竞品、行业报告与数据来源清单",
+          "dependsOn": ["research-scope"],
+          "template": "agents/iris/source-collection.md",
+          "inputKeys": ["prompt", "research_scope", "plan", "prd"],
+          "outputType": "research_sources"
+        },
+        {
+          "id": "analysis",
+          "name": "Research Analysis",
+          "nameZh": "调研分析",
+          "description": "结构化分析与关键发现",
+          "dependsOn": ["source-collection"],
+          "template": "agents/iris/analysis.md",
+          "inputKeys": ["prompt", "research_sources", "research_scope", "prd"],
+          "outputType": "research_analysis"
+        },
+        {
+          "id": "research-report",
+          "name": "Research Report",
+          "nameZh": "调研报告",
+          "description": "完整调研报告与建议",
+          "dependsOn": ["research-scope", "source-collection", "analysis"],
+          "template": "agents/iris/research-report.md",
+          "inputKeys": ["prompt", "research_scope", "research_sources", "research_analysis", "plan", "prd", "title"],
+          "outputType": "research"
+        }
+      ]
+    },
+    {
+      "id": "sarah",
+      "name": "Sarah",
+      "nameZh": "Sarah",
+      "role": "seo_expert",
+      "roleZh": "SEO 专家",
+      "color": "#ef4444",
+      "bgColor": "#fef2f2",
+      "emoji": "📈",
+      "description": "SEO strategy, content optimization, and growth.",
+      "descriptionZh": "SEO 策略、内容优化与增长方案",
+      "systemPrompt": "你是 Sarah，Atoms 团队的 SEO 专家。你擅长搜索引擎优化、内容策略、关键词规划和增长方案。\n当用户与你对话时：提供 SEO 建议、内容结构优化和可发现性提升方案。\n语气结果导向、注重细节。用中文回复。",
+      "inPipeline": false,
+      "inputs": ["prd"],
+      "outputs": ["keyword_research", "content_strategy", "seo_audit", "seo"],
+      "workflow": [
+        {
+          "id": "keyword-research",
+          "name": "Keyword Research",
+          "nameZh": "关键词调研",
+          "description": "核心词、长尾词与搜索意图分析",
+          "dependsOn": ["prd"],
+          "template": "agents/sarah/keyword-research.md",
+          "inputKeys": ["prompt", "prd", "title", "appType"],
+          "outputType": "keyword_research"
+        },
+        {
+          "id": "content-strategy",
+          "name": "Content Strategy",
+          "nameZh": "内容策略",
+          "description": "内容架构、主题集群与发布节奏",
+          "dependsOn": ["keyword-research"],
+          "template": "agents/sarah/content-strategy.md",
+          "inputKeys": ["prompt", "prd", "keyword_research", "title"],
+          "outputType": "content_strategy"
+        },
+        {
+          "id": "seo-audit",
+          "name": "SEO Audit",
+          "nameZh": "SEO 审计",
+          "description": "技术 SEO 与页面优化检查清单",
+          "dependsOn": ["content-strategy"],
+          "template": "agents/sarah/seo-audit.md",
+          "inputKeys": ["prompt", "prd", "content_strategy", "keyword_research"],
+          "outputType": "seo_audit"
+        },
+        {
+          "id": "seo-plan",
+          "name": "SEO Plan",
+          "nameZh": "SEO 方案",
+          "description": "完整 SEO 执行计划",
+          "dependsOn": ["keyword-research", "content-strategy", "seo-audit"],
+          "template": "agents/sarah/seo-plan.md",
+          "inputKeys": ["prompt", "keyword_research", "content_strategy", "seo_audit", "prd", "title"],
+          "outputType": "seo"
+        }
+      ]
+    },
+    {
+      "id": "adrian",
+      "name": "Adrian",
+      "nameZh": "Adrian",
+      "role": "ads_specialist",
+      "roleZh": "广告专家",
+      "color": "#0ea5e9",
+      "bgColor": "#f0f9ff",
+      "emoji": "📣",
+      "description": "Paid ads, campaign strategy, and conversion optimization.",
+      "descriptionZh": "付费广告、投放策略与转化优化",
+      "systemPrompt": "你是 Adrian，Atoms 团队的广告专家。你擅长 Google/Meta 广告投放、受众定位、创意策略和转化优化。\n当用户与你对话时：帮助设计广告 campaign、落地页转化路径、A/B 测试方案和 ROI 预估。\n语气数据驱动、注重 ROI。用中文回复。",
+      "inPipeline": false,
+      "inputs": ["prd"],
+      "outputs": ["audience_analysis", "campaign_strategy", "ad_creatives", "ads"],
+      "workflow": [
+        {
+          "id": "audience-analysis",
+          "name": "Audience Analysis",
+          "nameZh": "受众分析",
+          "description": "目标受众画像与细分",
+          "dependsOn": ["prd"],
+          "template": "agents/adrian/audience-analysis.md",
+          "inputKeys": ["prompt", "prd", "title", "appType"],
+          "outputType": "audience_analysis"
+        },
+        {
+          "id": "campaign-strategy",
+          "name": "Campaign Strategy",
+          "nameZh": "投放策略",
+          "description": "渠道组合、预算与漏斗设计",
+          "dependsOn": ["audience-analysis"],
+          "template": "agents/adrian/campaign-strategy.md",
+          "inputKeys": ["prompt", "prd", "audience_analysis", "title"],
+          "outputType": "campaign_strategy"
+        },
+        {
+          "id": "ad-creatives",
+          "name": "Ad Creatives",
+          "nameZh": "广告创意",
+          "description": "文案、视觉方向与 A/B 变体",
+          "dependsOn": ["campaign-strategy"],
+          "template": "agents/adrian/ad-creatives.md",
+          "inputKeys": ["prompt", "prd", "campaign_strategy", "audience_analysis", "title", "appType"],
+          "outputType": "ad_creatives"
+        },
+        {
+          "id": "ads-plan",
+          "name": "Ads Plan",
+          "nameZh": "投放方案",
+          "description": "完整广告投放执行方案",
+          "dependsOn": ["audience-analysis", "campaign-strategy", "ad-creatives"],
+          "template": "agents/adrian/ads-plan.md",
+          "inputKeys": ["prompt", "audience_analysis", "campaign_strategy", "ad_creatives", "prd", "title"],
+          "outputType": "ads"
+        }
+      ]
+    }
+  ]
+}

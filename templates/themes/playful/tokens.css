@@ -1,0 +1,11 @@
+:root {
+  --primary: #f472b6;
+  --bg: #fef3c7;
+  --card: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #fcd34d;
+  --hero-bg: linear-gradient(135deg, #fef3c7, #fce7f3);
+  --bg-gradient: linear-gradient(135deg, #f472b6, #fb923c);
+  --surface: #fff7ed;
+}

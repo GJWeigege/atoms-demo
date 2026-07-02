@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: atoms
+      POSTGRES_PASSWORD: atoms
+      POSTGRES_DB: atoms_demo
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atoms -d atoms_demo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://atoms:atoms@postgres:5432/atoms_demo
+      JWT_SECRET: ${JWT_SECRET:-atoms-demo-dev-secret}
+      TEMPLATES_ROOT: /app/templates
+      CONFIG_ROOT: /app/config
+    volumes:
+      - ./templates:/app/templates:ro
+      - ./config:/app/config:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - full
+
+volumes:
+  postgres_data:

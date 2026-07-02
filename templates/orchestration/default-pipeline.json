@@ -1,0 +1,24 @@
+{
+  "id": "default-pipeline",
+  "name": "默认开发流水线",
+  "optionalStages": {
+    "iris": {
+      "triggerKeywords": ["调研", "research", "竞品", "market"],
+      "insertAfter": "emma",
+      "steps": ["research-scope", "source-collection", "analysis", "research-report"],
+      "inputs": ["plan", "prd"]
+    },
+    "sarah": {
+      "triggerKeywords": ["seo", "搜索", "关键词"],
+      "insertAfter": "emma",
+      "steps": ["keyword-research", "content-strategy", "seo-audit", "seo-plan"],
+      "inputs": ["prd"]
+    },
+    "adrian": {
+      "triggerKeywords": ["广告", "ads", "投放", "campaign"],
+      "insertAfter": "emma",
+      "steps": ["audience-analysis", "campaign-strategy", "ad-creatives", "ads-plan"],
+      "inputs": ["prd"]
+    }
+  }
+}

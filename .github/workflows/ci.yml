@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: atoms
+          POSTGRES_PASSWORD: atoms
+          POSTGRES_DB: atoms_demo
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U atoms -d atoms_demo"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Frontend tests
+        run: pnpm test
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: pip install -r requirements.txt pytest
+
+      - name: Backend tests
+        working-directory: backend
+        env:
+          DATABASE_URL: postgresql+asyncpg://atoms:atoms@localhost:5432/atoms_demo
+          JWT_SECRET: ci-test-secret
+        run: python -m pytest tests/ -v
+
+      - name: Validate config
+        run: pnpm validate:config

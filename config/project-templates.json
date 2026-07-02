@@ -1,0 +1,104 @@
+{
+  "templates": [
+    {
+      "id": "todo-app",
+      "name": "待办清单",
+      "description": "添加、完成与本地持久化任务管理",
+      "category": "saas",
+      "appType": "todo",
+      "prompt": "Build a modern todo list app with add task, mark complete, and local storage persistence. Clean SaaS UI.",
+      "icon": "✅",
+      "gradient": "from-indigo-500 to-violet-600"
+    },
+    {
+      "id": "landing-page",
+      "name": "SaaS 落地页",
+      "description": "Hero、功能介绍与行动号召的营销页",
+      "category": "saas",
+      "appType": "landing",
+      "prompt": "Create a SaaS landing page for an AI productivity tool with hero section, three feature cards, and call-to-action buttons.",
+      "icon": "🚀",
+      "gradient": "from-blue-500 to-cyan-500"
+    },
+    {
+      "id": "dashboard",
+      "name": "数据分析面板",
+      "description": "KPI 卡片与图表的业务指标面板",
+      "category": "saas",
+      "appType": "dashboard",
+      "prompt": "Build an analytics dashboard with sidebar navigation, KPI metric cards showing revenue/users/sessions, and a weekly activity bar chart.",
+      "icon": "📊",
+      "gradient": "from-purple-500 to-indigo-600"
+    },
+    {
+      "id": "online-store",
+      "name": "在线商店",
+      "description": "商品展示、购物车与结账流程",
+      "category": "ecommerce",
+      "appType": "store",
+      "prompt": "Create an e-commerce storefront with product grid, product detail modal, shopping cart sidebar, and checkout summary.",
+      "icon": "🛒",
+      "gradient": "from-rose-500 to-pink-600"
+    },
+    {
+      "id": "product-catalog",
+      "name": "产品目录",
+      "description": "分类筛选与搜索的商品目录",
+      "category": "ecommerce",
+      "appType": "catalog",
+      "prompt": "Build a product catalog with category filters, search bar, sort options, and responsive product cards.",
+      "icon": "🏷️",
+      "gradient": "from-orange-500 to-red-500"
+    },
+    {
+      "id": "calculator",
+      "name": "计算器",
+      "description": "基础四则运算的交互式计算器",
+      "category": "internal",
+      "appType": "calculator",
+      "prompt": "Create a sleek calculator app with basic arithmetic operations (+, -, ×, ÷), clear, and percentage functions.",
+      "icon": "🔢",
+      "gradient": "from-zinc-600 to-zinc-800"
+    },
+    {
+      "id": "inventory",
+      "name": "库存管理",
+      "description": "SKU 追踪与低库存预警",
+      "category": "internal",
+      "appType": "inventory",
+      "prompt": "Build an internal inventory management tool with SKU list, stock in/out logs, and low-stock alerts.",
+      "icon": "📦",
+      "gradient": "from-emerald-500 to-green-600"
+    },
+    {
+      "id": "portfolio",
+      "name": "开发者作品集",
+      "description": "项目展示与技能介绍",
+      "category": "personal",
+      "appType": "portfolio",
+      "prompt": "Build a developer portfolio page with hero intro, skills section, project cards grid, and contact button.",
+      "icon": "👨‍💻",
+      "gradient": "from-sky-500 to-blue-600"
+    },
+    {
+      "id": "weather",
+      "name": "天气组件",
+      "description": "城市搜索与天气展示",
+      "category": "personal",
+      "appType": "weather",
+      "prompt": "Create a weather app widget showing current temperature, conditions, and a city search input with mock weather data.",
+      "icon": "🌤️",
+      "gradient": "from-amber-400 to-orange-500"
+    },
+    {
+      "id": "journal",
+      "name": "个人日记",
+      "description": "日记条目与 mood 追踪",
+      "category": "personal",
+      "appType": "journal",
+      "prompt": "Build a personal journal app with daily entries, mood tracking emoji picker, and calendar view.",
+      "icon": "📔",
+      "gradient": "from-fuchsia-500 to-purple-600"
+    }
+  ]
+}
